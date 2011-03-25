@@ -1,6 +1,8 @@
 function love.load()
 	camera_x    = 0
 	camera_y    = 0
+	player_x    = 50
+	player_y    = 50
 	map_width   = 20
 	map_height  = 20
 	tile_size_x = 20
@@ -9,10 +11,11 @@ function love.load()
 	tile_count  = 2
 
 	tile = {}
-
 	for i=0,tile_count do
 		tile[i] = love.graphics.newImage("tiles/"..i..".png")
 	end
+
+	player = love.graphics.newImage("gfx/player.png")
 
 	map_background={
 	   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -60,7 +63,6 @@ function love.load()
 	   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	}
 
-
 end
 
 function love.update()
@@ -68,6 +70,7 @@ end
 
 function love.draw()
 	map_draw()
+	player_draw()
 	love.graphics.print("Hello Wolrd",20,20)
 end
 
@@ -86,4 +89,8 @@ function map_draw()
 		end
 	end
 
+end
+
+function player_draw()
+	love.graphics.draw(player,player_x,player_y)
 end
