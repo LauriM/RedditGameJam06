@@ -1,4 +1,6 @@
 function love.load()
+	camera_x    = 0
+	camera_y    = 0
 	map_width   = 20
 	map_height  = 20
 	tile_size_x = 20
@@ -72,14 +74,14 @@ end
 function map_draw()
 	for x=1, map_width do
 		for y=1, map_height do
-			love.graphics.draw(tile[map_background[x][y]], x * tile_size_x, y * tile_size_y)
+			love.graphics.draw(tile[map_background[x][y]], (x * tile_size_x) + camera_x, (y * tile_size_y) + camera_y)
 		end
 	end
 
 	for x=1, map_width do
 		for y=1, map_height do
 			if map_foreground[x][y] > 0 then
-				love.graphics.draw(tile[map_foreground[x][y]], x * tile_size_x, y * tile_size_y)
+				love.graphics.draw(tile[map_foreground[x][y]], (x * tile_size_x) + camera_x, (y * tile_size_y) + camera_y)
 			end
 		end
 	end
