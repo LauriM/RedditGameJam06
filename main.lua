@@ -1,12 +1,13 @@
 function love.load()
-	love.graphics.setMode( 650, 560, false, true, 2)
+	love.graphics.setMode( 700, 560, false, true, 2)
 
 	state = 0
 	-- 0 = menu
 	-- 1 = game
 	next_level = 0
+	points     = 0
 
-	str = 100
+	str     = 100
 	speed_x = 0
 	speed_y = 0
 
@@ -46,7 +47,7 @@ function love.load()
 	tile_size_x = 20
 	tile_size_y = 20
 	
-	tile_count  = 2
+	tile_count  = 3
 
 	tile_img = {}
 	for i=0,tile_count do
@@ -61,6 +62,7 @@ if state == 0 then
 	if love.keyboard.isDown("f9") == false then
 		state = 1
 		next_level = next_level + 1
+		points = 0
 	end
 
 	load_map(next_level)
@@ -81,18 +83,22 @@ if state == 1 then
 	--input
 	if love.keyboard.isDown("down") == true then
 		speed_y = str
+		speed_x = 0
 	end
 
 	if love.keyboard.isDown("up") == true then
 		speed_y = -str
+		speed_x = 0
 	end
 
 	if love.keyboard.isDown("right") == true then
 		speed_x = str
+		speed_y = 0
 	end
 
 	if love.keyboard.isDown("left") == true then
 		speed_x = -str
+		speed_y = 0
 	end
 
 	if love.keyboard.isDown("f9") == true then
@@ -122,13 +128,11 @@ if state == 1 then
 	world:update(dt)
 
 	--Check for the end result
-	if emitters_dead == true then
-		if targets_left < 10 then
-			print("Win!")
-			score = love.timer.getTime() - round_start_time
-			print("Time: "..score)
-			state = 0
-		end		
+	if target - points < 1 then
+		print("Win!")
+		score = love.timer.getTime() - round_start_time
+		print("Time: "..score)
+		state = 0
 	end
 end --state end
 
@@ -136,6 +140,7 @@ end
 
 function persist(a,b,coll)
 	if a == "End" then
+		points = points + size[b]
 		kill[b] = true
 	end
 end
@@ -146,7 +151,8 @@ if state == 0 then
 end
 if state == 1 then
 	draw_physics()
-	love.graphics.print("Objects left: "..targets_left,20,2)
+	love.graphics.print("Objects left: "..targets_left,560,10)
+	love.graphics.print("Energy required: "..target - points,560,30)
 end
 end
 
@@ -192,6 +198,7 @@ function update_emitters()
 						b[i]      = math.random(1,250)
 						bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
 						shapes[i]:setData(i)
+						bodies[i]:setAllowSleeping(false)
 					end
 				end
 			end
@@ -227,6 +234,7 @@ print("################################")
 		map_width   = 27
 		map_height  = 27
 
+		target = 500
 		map={
 		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 1},
@@ -267,8 +275,8 @@ print("################################")
 		emitter_alive[2]     = true
 		emitter_x[2]         = 50
 		emitter_y[2]         = 300
-		emitter_left[2]      = 10
-		emitter_blob_size[2] = 2 
+		emitter_left[2]      = 4 
+		emitter_blob_size[2] = 1 
 		emitter_size[2]      = 15 
 	end
 
@@ -276,13 +284,14 @@ print("################################")
 		map_width   = 27
 		map_height  = 27
 
+		target = 550
 		map={
 		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 1},
 		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -307,30 +316,30 @@ print("################################")
 		}
 
 		emitter_alive[1]     = true
-		emitter_left[1]      = 50
 		emitter_x[1]         = 50
 		emitter_y[1]         = 50
+		emitter_left[1]      = 50
 		emitter_blob_size[1] = 10 
 		emitter_size[1]      = 3 
 
 		emitter_alive[2]     = true
-		emitter_left[2]      = 50
 		emitter_x[2]         = 50
 		emitter_y[2]         = 500
+		emitter_left[2]      = 50
 		emitter_blob_size[2] = 10 
 		emitter_size[2]      = 3 
 
 		emitter_alive[3]     = true
-		emitter_left[3]      = 50
 		emitter_x[3]         = 500
 		emitter_y[3]         = 50
+		emitter_left[3]      = 50
 		emitter_blob_size[3] = 10 
 		emitter_size[3]      = 3 
 
 		emitter_alive[4]     = true
-		emitter_left[4]      = 50
 		emitter_x[4]         = 500
 		emitter_y[4]         = 500
+		emitter_left[4]      = 50
 		emitter_blob_size[4] = 10 
 		emitter_size[4]      = 3 
 	end
@@ -347,6 +356,10 @@ print("################################")
 				kill[count]   = false
 				if tile[count] == 2 then
 					shapes[count]:setData("End")
+				end
+
+				if tile[count] == 3 then
+					shapes[count]:setData("Kill")
 				end
 				count = count + 1
 			end
