@@ -143,6 +143,10 @@ function persist(a,b,coll)
 		points = points + size[b]
 		kill[b] = true
 	end
+
+	if a == "Kill" then
+		kill[b] = true
+	end
 end
 
 function love.draw()
