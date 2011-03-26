@@ -313,9 +313,9 @@ print("################################")
 		emitter_alive[1]     = true
 		emitter_x[1]         = 50
 		emitter_y[1]         = 50
-		emitter_left[1]      = 200
+		emitter_left[1]      = 150
 		emitter_blob_size[1] = 50 
-		emitter_size[1]      = 3
+		emitter_size[1]      = 5
 
 		emitter_alive[2]     = true
 		emitter_x[2]         = 50
@@ -363,30 +363,30 @@ print("################################")
 		emitter_alive[1]     = true
 		emitter_x[1]         = 50
 		emitter_y[1]         = 50
-		emitter_left[1]      = 50
+		emitter_left[1]      = 30
 		emitter_blob_size[1] = 10 
-		emitter_size[1]      = 3 
+		emitter_size[1]      = 5 
 
 		emitter_alive[2]     = true
 		emitter_x[2]         = 50
 		emitter_y[2]         = 500
-		emitter_left[2]      = 50
+		emitter_left[2]      = 30
 		emitter_blob_size[2] = 10 
-		emitter_size[2]      = 3 
+		emitter_size[2]      = 5 
 
 		emitter_alive[3]     = true
 		emitter_x[3]         = 500
 		emitter_y[3]         = 50
-		emitter_left[3]      = 50
+		emitter_left[3]      = 30
 		emitter_blob_size[3] = 10 
-		emitter_size[3]      = 3 
+		emitter_size[3]      = 5 
 
 		emitter_alive[4]     = true
 		emitter_x[4]         = 500
 		emitter_y[4]         = 500
-		emitter_left[4]      = 50
+		emitter_left[4]      = 30
 		emitter_blob_size[4] = 10 
-		emitter_size[4]      = 3 
+		emitter_size[4]      = 5 
 	end
 
 	if level == 3 then
