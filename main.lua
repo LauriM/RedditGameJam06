@@ -6,6 +6,7 @@ function love.load()
 	-- 1 = game
 	next_level = 0
 	points     = 0
+	lvl_change = true
 
 	str     = 100
 	speed_x = 0
@@ -61,11 +62,11 @@ function love.update(dt)
 if state == 0 then
 	round_start_time = love.timer.getTime()
 
-	if love.keyboard.isDown("f9") == false then
-		state = 1
+	state = 1
+	if lvl_change == true then
 		next_level = next_level + 1
-		points = 0
 	end
+	points = 0
 
 	load_map(next_level)
 	--remove old objects
@@ -109,6 +110,7 @@ if state == 1 then
 			print("Resetting level by user request!")
 			
 			state = 0
+			lvl_change = false
 		end
 	else
 		key_state_r = false
@@ -140,6 +142,7 @@ if state == 1 then
 		score = love.timer.getTime() - round_start_time
 		print("Time: "..score)
 		state = 0
+		lvl_change = true
 	end
 end --state end
 
