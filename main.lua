@@ -98,11 +98,11 @@ function love.load()
 	count = 0
 	for i=0, MAX_OBJ do
 		if alive[i] == false then
-			if count < 200 then
+			if count < 1000 then
 				count = count + 1
 				alive[i]  = true
 				bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
-				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,5)
+				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
 				info[i]   = 1
 				bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
 				shapes[i]:setData(i)
@@ -181,7 +181,7 @@ function draw_physics()
 			end
 
 			if info[i] == 1 then
-				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),5)
+				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
 				targets_left = targets_left + 1
 			end
 
