@@ -56,6 +56,8 @@ function love.load()
 	for i=0,tile_count do
 		tile_img[i] = love.graphics.newImage("tiles/"..i..".png")
 	end
+
+	background = love.graphics.newImage("gfx/bg.png")
 end
 
 function love.update(dt)
@@ -156,6 +158,7 @@ function persist(a,b,coll)
 end
 
 function love.draw()
+	love.graphics.draw(background,0,0)
 if state == 0 then
 	love.graphics.print("Menu",20,20)
 end
