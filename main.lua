@@ -1,9 +1,7 @@
+require "TEsound"
+
 function love.load()
 	love.graphics.setMode( 700, 560, false, true, 2)
-
-	pop01 = love.audio.newSource("sfx/pop01.wav")
-	pop02 = love.audio.newSource("sfx/pop02.wav")
-	pop03 = love.audio.newSource("sfx/pop03.wav")
 
 	state = 0
 	-- 0 = menu
@@ -63,6 +61,7 @@ function love.load()
 end
 
 function love.update(dt)
+TEsound.cleanup()
 if state == 0 then
 	round_start_time = love.timer.getTime()
 
@@ -157,19 +156,17 @@ if state == 1 then
 	end
 end --state end
 
-	love.audio.play(pop01)
-	love.audio.play(pop02)
-	love.audio.play(pop03)
 end
 
 function persist(a,b,coll)
 	if a == "End" then
-		love.audio.rewind(pop01)
+		TEsound.play("sfx/pop01.wav")
 		points = points + size[b]
 		kill[b] = true
 	end
 
 	if a == "Kill" then
+		TEsound.play("sfx/pop02.wav")
 		kill[b] = true
 	end
 end
@@ -214,6 +211,7 @@ function update_emitters()
 			emitters_dead = false
 			count = 0
 			emitter_left[a] = emitter_left[a] - emitter_blob_size[a] 
+			TEsound.play("sfx/pop03.wav")
 			for i=0, MAX_OBJ do
 				if alive[i] == false then
 					if count < emitter_blob_size[a] then
