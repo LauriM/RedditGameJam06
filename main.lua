@@ -19,12 +19,14 @@ function love.load()
 	r      = {}
 	g      = {}
 	b      = {}
+	size   = {}
 
 	emitter_alive     = {}
 	emitter_x         = {}
 	emitter_y         = {}
 	emitter_left      = {}
 	emitter_blob_size = {}
+	emitter_size      = {}
 
 	MAX_OBJ     = 5000 
 	MAX_EMITTER = 20
@@ -161,7 +163,7 @@ function draw_physics()
 
 			if info[i] == 1 then
 				love.graphics.setColor(r[i],g[i],b[i],255)
-				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
+				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),size[i])
 				love.graphics.setColor(255,255,255,255)
 				targets_left = targets_left + 1
 			end
@@ -182,8 +184,9 @@ function update_emitters()
 						count = count + 1
 						alive[i]  = true
 						bodies[i] = love.physics.newBody(world,emitter_x[a],emitter_y[a],20,20)
-						shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
+						shapes[i] = love.physics.newCircleShape(bodies[i],0,0,emitter_size[a])
 						info[i]   = 1
+						size[i]   = emitter_size[a]
 						r[i]      = math.random(1,250)
 						g[i]      = math.random(1,250)
 						b[i]      = math.random(1,250)
@@ -255,16 +258,18 @@ print("################################")
 		}
 
 		emitter_alive[1]     = true
-		emitter_left[1]      = 200
 		emitter_x[1]         = 50
 		emitter_y[1]         = 50
+		emitter_left[1]      = 200
 		emitter_blob_size[1] = 50 
+		emitter_size[1]      = 3
 
 		emitter_alive[2]     = true
-		emitter_left[2]      = 200
 		emitter_x[2]         = 50
 		emitter_y[2]         = 300
-		emitter_blob_size[2] = 50 
+		emitter_left[2]      = 10
+		emitter_blob_size[2] = 2 
+		emitter_size[2]      = 15 
 	end
 
 	if level == 2 then
@@ -306,24 +311,28 @@ print("################################")
 		emitter_x[1]         = 50
 		emitter_y[1]         = 50
 		emitter_blob_size[1] = 10 
+		emitter_size[1]      = 3 
 
 		emitter_alive[2]     = true
 		emitter_left[2]      = 50
 		emitter_x[2]         = 50
 		emitter_y[2]         = 500
 		emitter_blob_size[2] = 10 
+		emitter_size[2]      = 3 
 
 		emitter_alive[3]     = true
 		emitter_left[3]      = 50
 		emitter_x[3]         = 500
 		emitter_y[3]         = 50
 		emitter_blob_size[3] = 10 
+		emitter_size[3]      = 3 
 
 		emitter_alive[4]     = true
 		emitter_left[4]      = 50
 		emitter_x[4]         = 500
 		emitter_y[4]         = 500
 		emitter_blob_size[4] = 10 
+		emitter_size[4]      = 3 
 	end
 		
 	count = 0
