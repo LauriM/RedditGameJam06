@@ -61,10 +61,10 @@ function love.load()
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -93,11 +93,11 @@ function love.load()
 	count = 0
 	for i=0, MAX_OBJ do
 		if alive[i] == false then
-			if count < 1050 then
+			if count < 500 then
 				count = count + 1
 				alive[i]  = true
 				bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
-				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
+				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,5)
 				info[i]   = 1
 				bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
 			end
@@ -157,7 +157,7 @@ function draw_physics()
 			end
 
 			if info[i] == 1 then
-				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
+				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),5)
 			end
 
 			if info[i] == 2 then
