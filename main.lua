@@ -147,10 +147,12 @@ end
 
 function love.draw()
 	draw_physics()
-	love.graphics.print("Hello Wolrd",20,20)
+	love.graphics.print("Objects left: "..targets_left,20,2)
 end
 
 function draw_physics()
+	--Lest count the object count at the same time
+	targets_left = 0
 	for i=0,MAX_OBJ do
 		if alive[i] == true then
 			if info[i] == 0 then
@@ -161,6 +163,7 @@ function draw_physics()
 
 			if info[i] == 1 then
 				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),5)
+				targets_left = targets_left + 1
 			end
 
 			if info[i] == 2 then
