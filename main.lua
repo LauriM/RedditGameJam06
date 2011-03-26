@@ -1,4 +1,6 @@
 function love.load()
+	love.graphics.setMode( 650, 560, false, true, 2)
+
 	state = 0
 	-- 0 = menu
 	-- 1 = game
