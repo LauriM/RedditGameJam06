@@ -1,6 +1,6 @@
 function love.load()
 	world = love.physics.newWorld(-800,-600, 800,600)
-	world:setGravity(0,50)
+	world:setGravity(0,0)
 
 	bodies = {}
 	shapes = {}
@@ -82,11 +82,12 @@ function love.load()
 		end
 	end
 
-	for i=0,250 do
+	for i=0,500 do
 		alive[i]  = true
 		bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
-		shapes[i] = love.physics.newCircleShape(bodies[i],0,0,5)
+		shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
 		info[i]   = 1
+		bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
 	end
 end
 
@@ -101,14 +102,14 @@ function love.draw()
 end
 
 function draw_physics()
-	for i=0,500 do
+	for i=0,5000 do
 		if alive[i] == true then
 			if info[i] == 0 then
 				--no need to render as tiles are drawn using images
 			end
 
 			if info[i] == 1 then
-				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),5)
+				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
 			end
 		end
 	end
