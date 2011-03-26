@@ -119,24 +119,6 @@ function love.load()
 end
 
 function love.update(dt)
-	if love.mouse.isDown("l") then
-		if mouse_state_l == 0 then
-			mouse_state_l = 1
-
-			for i=0,MAX_OBJ do
-				if alive[i] == false then
-					alive[i]  = true
-					bodies[i] = love.physics.newBody(world,love.mouse.getX(),love.mouse.getY(),300,20)
-					shapes[i] = love.physics.newCircleShape(bodies[i],0,0,20)
-					info[i]   = 2
-					break
-				end
-			end
-		end
-	else
-		mouse_state_l = 0
-	end
-
 	if love.keyboard.isDown("down") == true then
 		world:setGravity(0,70)
 	end
