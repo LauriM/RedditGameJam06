@@ -16,6 +16,9 @@ function love.load()
 	info   = {}
 	tile   = {}
 	kill   = {}
+	r      = {}
+	g      = {}
+	b      = {}
 
 	emitter_alive     = {}
 	emitter_x         = {}
@@ -157,7 +160,9 @@ function draw_physics()
 			end
 
 			if info[i] == 1 then
+				love.graphics.setColor(r[i],g[i],b[i],255)
 				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
+				love.graphics.setColor(255,255,255,255)
 				targets_left = targets_left + 1
 			end
 		end
@@ -179,6 +184,9 @@ function update_emitters()
 						bodies[i] = love.physics.newBody(world,emitter_x[a],emitter_y[a],20,20)
 						shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
 						info[i]   = 1
+						r[i]      = math.random(1,250)
+						g[i]      = math.random(1,250)
+						b[i]      = math.random(1,250)
 						bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
 						shapes[i]:setData(i)
 					end
