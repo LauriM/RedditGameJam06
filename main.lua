@@ -2,9 +2,8 @@ function love.load()
 	state = 0
 	-- 0 = menu
 	-- 1 = game
-	world = love.physics.newWorld(-800,-600, 800,600)
-	world:setGravity(0,0)
-	world:setCallbacks(persist)
+	next_level = 0
+
 
 	bodies = {}
 	shapes = {}
@@ -48,10 +47,20 @@ end
 function love.update(dt)
 if state == 0 then
 	round_start_time = love.timer.getTime()
-	if score == nil then
-		state = 1
-		load_map(1)
+	next_level = next_level + 1
+	state = 1
+	load_map(next_level)
+	--remove old objects
+	for i=0,MAX_OBJ do	
+		if kill[i] == true then
+			kill[i] = false
+			alive[i] = false
+			bodies[i]:destroy()
+			shapes[i]:destroy()
+			print("destroy block")
+		end
 	end
+
 end
 
 if state == 1 then
@@ -171,16 +180,21 @@ end
 function kill_everything()
 	for i=0,MAX_OBJ do
 		if alive[i] == true then 
-			alive[i] = false
-			bodies[i]:destroy()
-			shapes[i]:destroy()
+			kill[i] = true 
 		end
 		emitter_alive[i] = false
 	end
 end
 
 function load_map(level)
+print("################################")
+print(level)
+print("################################")
 	kill_everything()
+
+	world = love.physics.newWorld(-800,-600, 800,600)
+	world:setGravity(0,0)
+	world:setCallbacks(persist)
 	if level == 1 then
 		map_width   = 20
 		map_height  = 20
@@ -221,6 +235,59 @@ function load_map(level)
 		emitter_y[2]         = 300
 		emitter_blob_size[2] = 50 
 	end
+
+	if level == 2 then
+		map_width   = 20
+		map_height  = 20
+
+		map={
+		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		}
+
+		emitter_alive[1]     = true
+		emitter_left[1]      = 50
+		emitter_x[1]         = 50
+		emitter_y[1]         = 50
+		emitter_blob_size[1] = 10 
+
+		emitter_alive[2]     = true
+		emitter_left[2]      = 50
+		emitter_x[2]         = 50
+		emitter_y[2]         = 300
+		emitter_blob_size[2] = 10 
+
+		emitter_alive[3]     = true
+		emitter_left[3]      = 50
+		emitter_x[3]         = 300
+		emitter_y[3]         = 50
+		emitter_blob_size[3] = 10 
+
+		emitter_alive[4]     = true
+		emitter_left[4]      = 50
+		emitter_x[4]         = 300
+		emitter_y[4]         = 300
+		emitter_blob_size[4] = 10 
+	end
+	
 		
 	count = 0
 	for x=1, map_width do
@@ -231,6 +298,7 @@ function load_map(level)
 				alive[count]  = true
 				info[count]   = 0
 				tile[count]   = map[x][y]
+				kill[count]   = false
 				if tile[count] == 2 then
 					shapes[count]:setData("End")
 				end
@@ -239,4 +307,5 @@ function load_map(level)
 		end
 	end
 
+	emitters_dead = false
 end
