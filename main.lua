@@ -1,11 +1,19 @@
 function love.load()
 	world = love.physics.newWorld(-800,-600, 800,600)
-	world:setGravity(0,0)
+	world:setGravity(0,20)
 
 	bodies = {}
 	shapes = {}
 	alive  = {}
 	info   = {}
+
+	MAX_OBJ = 10000
+	
+	for i=0,MAX_OBJ do
+		alive[i] = false
+	end
+
+	mouse_state_l = 0
 
 	camera_x    = 0
 	camera_y    = 0
@@ -82,16 +90,39 @@ function love.load()
 		end
 	end
 
-	for i=0,500 do
-		alive[i]  = true
-		bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
-		shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
-		info[i]   = 1
-		bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
+	count = 0
+	for i=0, MAX_OBJ do
+		if alive[i] == false then
+			if count < 1050 then
+				count = count + 1
+				alive[i]  = true
+				bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
+				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
+				info[i]   = 1
+				bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
+			end
+		end
 	end
 end
 
 function love.update(dt)
+	if love.mouse.isDown("l") then
+		if mouse_state_l == 0 then
+			mouse_state_l = 1
+
+			for i=0,MAX_OBJ do
+				if alive[i] == false then
+					alive[i]  = true
+					bodies[i] = love.physics.newBody(world,love.mouse.getX(),love.mouse.getY(),300,20)
+					shapes[i] = love.physics.newCircleShape(bodies[i],0,0,20)
+					info[i]   = 2
+					break
+				end
+			end
+		end
+	else
+		mouse_state_l = 0
+	end
 	world:update(dt)
 end
 
@@ -102,7 +133,7 @@ function love.draw()
 end
 
 function draw_physics()
-	for i=0,5000 do
+	for i=0,MAX_OBJ do
 		if alive[i] == true then
 			if info[i] == 0 then
 				--no need to render as tiles are drawn using images
@@ -110,6 +141,10 @@ function draw_physics()
 
 			if info[i] == 1 then
 				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
+			end
+
+			if info[i] == 2 then
+				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),20)
 			end
 		end
 	end
