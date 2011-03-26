@@ -68,13 +68,13 @@ function love.load()
 	}
 
 	emitter_alive[1]     = true
-	emitter_left[1]      = 500
+	emitter_left[1]      = 50
 	emitter_x[1]         = 50
 	emitter_y[1]         = 50
 	emitter_blob_size[1] = 50 
 
 	emitter_alive[2]     = true
-	emitter_left[2]      = 500
+	emitter_left[2]      = 50
 	emitter_x[2]         = 50
 	emitter_y[2]         = 300
 	emitter_blob_size[2] = 50 
@@ -115,6 +115,10 @@ end
 
 function love.update(dt)
 if state == 0 then
+	round_start_time = love.timer.getTime()
+	if score == nil then
+		state = 1
+	end
 end
 
 if state == 1 then
@@ -152,6 +156,16 @@ if state == 1 then
 		end
 	end
 	world:update(dt)
+
+	--Check for the end result
+	if emitters_dead == true then
+		if targets_left < 10 then
+			print("Win!")
+			score = love.timer.getTime() - round_start_time
+			print("Time: "..score)
+			state = 0
+		end		
+	end
 end --state end
 
 end
@@ -192,8 +206,10 @@ function draw_physics()
 end
 
 function update_emitters()
+	emitters_dead = true
 	for a=0, MAX_EMITTER do
 		if emitter_alive[a] == true then
+			emitters_dead = false
 			count = 0
 			emitter_left[a] = emitter_left[a] - emitter_blob_size[a] 
 			for i=0, MAX_OBJ do
