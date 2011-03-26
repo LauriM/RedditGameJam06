@@ -173,10 +173,6 @@ function draw_physics()
 				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),2)
 				targets_left = targets_left + 1
 			end
-
-			if info[i] == 2 then
-				love.graphics.circle("fill", bodies[i]:getX(), bodies[i]:getY(),20)
-			end
 		end
 	end
 end
