@@ -1,12 +1,14 @@
 function love.load()
 	world = love.physics.newWorld(-800,-600, 800,600)
 	world:setGravity(0,0)
+	world:setCallbacks(persist)
 
 	bodies = {}
 	shapes = {}
 	alive  = {}
 	info   = {}
 	tile   = {}
+	kill   = {}
 
 	MAX_OBJ = 10000
 	
@@ -96,13 +98,14 @@ function love.load()
 	count = 0
 	for i=0, MAX_OBJ do
 		if alive[i] == false then
-			if count < 500 then
+			if count < 200 then
 				count = count + 1
 				alive[i]  = true
 				bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
 				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,5)
 				info[i]   = 1
 				bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
+				shapes[i]:setData(i)
 			end
 		end
 	end
@@ -142,7 +145,23 @@ function love.update(dt)
 	if love.keyboard.isDown("left") == true then
 		world:setGravity(-70,0)
 	end
+
+	--remove old objects
+	for i=0,MAX_OBJ do	
+		if kill[i] == true then
+			kill[i] = false
+			alive[i] = false
+			bodies[i]:destroy()
+			shapes[i]:destroy()
+		end
+	end
 	world:update(dt)
+end
+
+function persist(a,b,coll)
+	if a == "End" then
+		kill[b] = true
+	end
 end
 
 function love.draw()
