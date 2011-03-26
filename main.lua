@@ -85,6 +85,9 @@ function love.load()
 				alive[count]  = true
 				info[count]   = 0
 				tile[count]   = map_foreground[x][y]
+				if tile[count] == 2 then
+					shapes[count]:setData("End")
+				end
 				count = count + 1
 			end
 		end
