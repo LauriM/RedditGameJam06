@@ -31,6 +31,8 @@ function love.load()
 
 	MAX_OBJ     = 5000 
 	MAX_EMITTER = 20
+
+	key_r_state = false 
 	
 	for i=0,MAX_OBJ do
 		alive[i] = false
@@ -73,7 +75,6 @@ if state == 0 then
 			alive[i] = false
 			bodies[i]:destroy()
 			shapes[i]:destroy()
-			print("destroy block")
 		end
 	end
 
@@ -101,10 +102,16 @@ if state == 1 then
 		speed_y = 0
 	end
 
-	if love.keyboard.isDown("f9") == true then
-		state = 0
-		score = 123	
-		print("Skipping level")
+	--special input
+	if love.keyboard.isDown("r") == true then
+		if key_state_r == false then
+			key_state_r = true
+			print("Resetting level by user request!")
+			
+			state = 0
+		end
+	else
+		key_state_r = false
 	end
 
 	world:setGravity(speed_x,speed_y)
