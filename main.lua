@@ -1,6 +1,10 @@
 function love.load()
 	love.graphics.setMode( 700, 560, false, true, 2)
 
+	pop01 = love.audio.newSource("sfx/pop01.wav")
+	pop02 = love.audio.newSource("sfx/pop02.wav")
+	pop03 = love.audio.newSource("sfx/pop03.wav")
+
 	state = 0
 	-- 0 = menu
 	-- 1 = game
@@ -153,10 +157,14 @@ if state == 1 then
 	end
 end --state end
 
+	love.audio.play(pop01)
+	love.audio.play(pop02)
+	love.audio.play(pop03)
 end
 
 function persist(a,b,coll)
 	if a == "End" then
+		love.audio.rewind(pop01)
 		points = points + size[b]
 		kill[b] = true
 	end
