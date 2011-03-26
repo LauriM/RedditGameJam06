@@ -19,7 +19,7 @@ function love.load()
 	emitter_left      = {}
 	emitter_blob_size = {}
 
-	MAX_OBJ     = 10000
+	MAX_OBJ     = 5000 
 	MAX_EMITTER = 20
 	
 	for i=0,MAX_OBJ do
@@ -43,74 +43,6 @@ function love.load()
 	for i=0,tile_count do
 		tile_img[i] = love.graphics.newImage("tiles/"..i..".png")
 	end
-
-	map={
-	   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	}
-
-	emitter_alive[1]     = true
-	emitter_left[1]      = 50
-	emitter_x[1]         = 50
-	emitter_y[1]         = 50
-	emitter_blob_size[1] = 50 
-
-	emitter_alive[2]     = true
-	emitter_left[2]      = 50
-	emitter_x[2]         = 50
-	emitter_y[2]         = 300
-	emitter_blob_size[2] = 50 
-	
-	count = 0
-	for x=1, map_width do
-		for y=1, map_height do
-			if map[x][y] > 0 then
-				bodies[count] = love.physics.newBody(world,x * tile_size_x,y * tile_size_y,0,0)
-				shapes[count] = love.physics.newRectangleShape(bodies[count],0, 0,20,20,0)
-				alive[count]  = true
-				info[count]   = 0
-				tile[count]   = map[x][y]
-				if tile[count] == 2 then
-					shapes[count]:setData("End")
-				end
-				count = count + 1
-			end
-		end
-	end
-
-	count = 0
---	for i=0, MAX_OBJ do
---		if alive[i] == false then
---			if count < 1000 then
---				count = count + 1
---				alive[i]  = true
---				bodies[i] = love.physics.newBody(world,math.random(25,300),math.random(25,300),20,20)
---				shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
---				info[i]   = 1
---				bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
---				shapes[i]:setData(i)
---			end
---		end
---	end
-
 end
 
 function love.update(dt)
@@ -118,6 +50,7 @@ if state == 0 then
 	round_start_time = love.timer.getTime()
 	if score == nil then
 		state = 1
+		load_map(1)
 	end
 end
 
@@ -230,6 +163,79 @@ function update_emitters()
 				emitter_alive[a] = false
 			end
 
+		end
+	end
+
+end
+
+function kill_everything()
+	for i=0,MAX_OBJ do
+		if alive[i] == true then 
+			alive[i] = false
+			bodies[i]:destroy()
+			shapes[i]:destroy()
+		end
+		emitter_alive[i] = false
+	end
+end
+
+function load_map(level)
+	kill_everything()
+	if level == 1 then
+		map_width   = 20
+		map_height  = 20
+
+		map={
+		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		}
+
+
+		emitter_alive[1]     = true
+		emitter_left[1]      = 50
+		emitter_x[1]         = 50
+		emitter_y[1]         = 50
+		emitter_blob_size[1] = 50 
+
+		emitter_alive[2]     = true
+		emitter_left[2]      = 50
+		emitter_x[2]         = 50
+		emitter_y[2]         = 300
+		emitter_blob_size[2] = 50 
+	end
+		
+	count = 0
+	for x=1, map_width do
+		for y=1, map_height do
+			if map[x][y] > 0 then
+				bodies[count] = love.physics.newBody(world,x * tile_size_x,y * tile_size_y,0,0)
+				shapes[count] = love.physics.newRectangleShape(bodies[count],0, 0,20,20,0)
+				alive[count]  = true
+				info[count]   = 0
+				tile[count]   = map[x][y]
+				if tile[count] == 2 then
+					shapes[count]:setData("End")
+				end
+				count = count + 1
+			end
 		end
 	end
 
