@@ -180,6 +180,23 @@ if state == 1 then
 	draw_physics()
 	love.graphics.print("Objects left: "..targets_left,560,10)
 	love.graphics.print("Energy required: "..target - points,560,30)
+
+	if speed_x < 0 then
+		love.graphics.print("Left",570,80)
+	end
+
+	if speed_x > 0 then
+		love.graphics.print("Right",650,80)
+	end
+
+	if speed_y < 0 then
+		love.graphics.print("Up",610,50)
+	end
+
+	if speed_y > 0 then
+		love.graphics.print("Down",610,100)
+	end
+
 end
 end
 
