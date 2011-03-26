@@ -1,4 +1,7 @@
 function love.load()
+	state = 0
+	-- 0 = menu
+	-- 1 = game
 	world = love.physics.newWorld(-800,-600, 800,600)
 	world:setGravity(0,0)
 	world:setCallbacks(persist)
@@ -111,6 +114,10 @@ function love.load()
 end
 
 function love.update(dt)
+if state == 0 then
+end
+
+if state == 1 then
 	--input
 	if love.keyboard.isDown("down") == true then
 		world:setGravity(0,70)
@@ -145,6 +152,8 @@ function love.update(dt)
 		end
 	end
 	world:update(dt)
+end --state end
+
 end
 
 function persist(a,b,coll)
@@ -154,8 +163,13 @@ function persist(a,b,coll)
 end
 
 function love.draw()
+if state == 0 then
+	love.graphics.print("Menu",20,20)
+end
+if state == 1 then
 	draw_physics()
 	love.graphics.print("Objects left: "..targets_left,20,2)
+end
 end
 
 function draw_physics()
