@@ -9,8 +9,6 @@ function love.load()
 
 	camera_x    = 0
 	camera_y    = 0
-	player_x    = 50
-	player_y    = 50
 	map_width   = 20
 	map_height  = 20
 	tile_size_x = 20
@@ -99,7 +97,6 @@ end
 function love.draw()
 	map_draw()
 	draw_physics()
-	player_draw()
 	love.graphics.print("Hello Wolrd",20,20)
 end
 
@@ -132,8 +129,4 @@ function map_draw()
 		end
 	end
 
-end
-
-function player_draw()
-	love.graphics.draw(player,player_x,player_y)
 end
