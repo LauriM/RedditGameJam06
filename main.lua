@@ -4,6 +4,9 @@ function love.load()
 	-- 1 = game
 	next_level = 0
 
+	str = 100
+	speed_x = 0
+	speed_y = 0
 
 	bodies = {}
 	shapes = {}
@@ -66,20 +69,22 @@ end
 if state == 1 then
 	--input
 	if love.keyboard.isDown("down") == true then
-		world:setGravity(0,70)
+		speed_y = str
 	end
 
 	if love.keyboard.isDown("up") == true then
-		world:setGravity(0,-70)
+		speed_y = -str
 	end
 
 	if love.keyboard.isDown("right") == true then
-		world:setGravity(70,0)
+		speed_x = str
 	end
 
 	if love.keyboard.isDown("left") == true then
-		world:setGravity(-70,0)
+		speed_x = -str
 	end
+
+	world:setGravity(speed_x,speed_y)
 
 	--update timers
 	if love.timer.getTime() - time > 1 then
@@ -308,4 +313,6 @@ print("################################")
 	end
 
 	emitters_dead = false
+	speed_x = 0
+	speed_y = 0
 end
