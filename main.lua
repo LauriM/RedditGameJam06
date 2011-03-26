@@ -10,13 +10,15 @@ function love.load()
 	tile   = {}
 	kill   = {}
 
+	emitter_alive    = {}
 	emitter_x        = {}
 	emitter_y        = {}
 	emitter_left     = {}
 	emitter_interval = {}
 	emitter_tick     = {}
 
-	MAX_OBJ = 10000
+	MAX_OBJ     = 10000
+	MAX_EMITTER = 20
 	
 	for i=0,MAX_OBJ do
 		alive[i] = false
