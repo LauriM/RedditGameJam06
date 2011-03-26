@@ -10,21 +10,22 @@ function love.load()
 	tile   = {}
 	kill   = {}
 
-	emitter_alive    = {}
-	emitter_x        = {}
-	emitter_y        = {}
-	emitter_left     = {}
-	emitter_interval = {}
-	emitter_tick     = {}
+	emitter_alive     = {}
+	emitter_x         = {}
+	emitter_y         = {}
+	emitter_left      = {}
+	emitter_blob_size = {}
 
 	MAX_OBJ     = 10000
 	MAX_EMITTER = 20
 	
 	for i=0,MAX_OBJ do
 		alive[i] = false
+		emitter_alive[i] = false
+		emitter_left[i] = 0
 	end
 
-	mouse_state_l = 0
+	time = love.timer.getTime()
 
 	camera_x    = 0
 	camera_y    = 0
@@ -72,8 +73,7 @@ function love.load()
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
@@ -85,6 +85,12 @@ function love.load()
 	   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
 	   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	}
+
+	emitter_alive[1]     = true
+	emitter_left[1]      = 100
+	emitter_x[1]         = 50
+	emitter_y[1]         = 50
+	emitter_blob_size[1] = 15 
 	
 	count = 0
 	for x=1, map_width do
@@ -121,6 +127,7 @@ function love.load()
 end
 
 function love.update(dt)
+	--input
 	if love.keyboard.isDown("down") == true then
 		world:setGravity(0,70)
 	end
@@ -135,6 +142,13 @@ function love.update(dt)
 
 	if love.keyboard.isDown("left") == true then
 		world:setGravity(-70,0)
+	end
+
+	--update timers
+	if love.timer.getTime() - time > 1 then
+		time = love.timer.getTime()
+
+		update_emitters()
 	end
 
 	--remove old objects
@@ -185,4 +199,32 @@ function map_bg()
 				love.graphics.draw(tile[map_background[x][y]], (x * tile_size_x) + camera_x - 10, (y * tile_size_y) + camera_y - 10)
 		end
 	end
+end
+
+function update_emitters()
+	count = 0
+	for a=0, MAX_EMITTER do
+		if emitter_alive[a] == true then
+			emitter_left[a] = emitter_left[a] - emitter_blob_size[a] 
+			for i=0, MAX_OBJ do
+				if alive[i] == false then
+					if count < emitter_blob_size[a] then
+						count = count + 1
+						alive[i]  = true
+						bodies[i] = love.physics.newBody(world,emitter_x[a],emitter_y[a],20,20)
+						shapes[i] = love.physics.newCircleShape(bodies[i],0,0,2)
+						info[i]   = 1
+						bodies[i]:setLinearVelocity(math.random(-25,25),math.random(-25,25))
+						shapes[i]:setData(i)
+					end
+				end
+			end
+
+			if emitter_left[a] < 0 then
+				emitter_alive[a] = false
+			end
+
+		end
+	end
+
 end
